@@ -14,12 +14,13 @@ int main(int argc, char** argv)
     }
 
     sockfd = np_socket4(SOCK_STREAM, 0);
+//    sockfd = Socket(AF_INET, SOCK_STREAM,0);
 
 //    bzero(&servaddr, sizeof(servaddr));
     memset(&servaddr, 0, sizeof(servaddr));
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons(SERV_PORT);
-    //Inet_pton(AF_INET, argv[1], &servaddr.sin_addr);
+//    Inet_pton(AF_INET, argv[1], &servaddr.sin_addr);
     np_inet_pton4(argv[1], &servaddr.sin_addr);    
 
 //    Connect(sockfd, (SA*)&servaddr, sizeof(servaddr));
