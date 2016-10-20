@@ -1,4 +1,5 @@
 #include "unp.h"
+#include "np.h"
 
 void str_cli(FILE* fp, int sockfd);
 void str_cli_select(FILE* fp, int sockfd);
@@ -12,16 +13,20 @@ int main(int argc, char** argv)
         err_quit("usage: tcpcli <IPaddress>");
     }
 
-    sockfd = Socket(AF_INET, SOCK_STREAM, 0);
+    sockfd = np_socket4(SOCK_STREAM, 0);
+//    sockfd = Socket(AF_INET, SOCK_STREAM,0);
 
-    bzero(&servaddr, sizeof(servaddr));
+//    bzero(&servaddr, sizeof(servaddr));
+    memset(&servaddr, 0, sizeof(servaddr));
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons(SERV_PORT);
-    Inet_pton(AF_INET, argv[1], &servaddr.sin_addr);
+//    Inet_pton(AF_INET, argv[1], &servaddr.sin_addr);
+    np_inet_pton4(argv[1], &servaddr.sin_addr);    
 
-    Connect(sockfd, (SA*)&servaddr, sizeof(servaddr));
-    //str_cli(stdin, sockfd);
-    str_cli_select(stdin, sockfd);
+//    Connect(sockfd, (SA*)&servaddr, sizeof(servaddr));
+    np_connect(sockfd, (SA*)&servaddr, sizeof(servaddr));
+    str_cli(stdin, sockfd);
+//    str_cli_select(stdin, sockfd);
     exit(0);
 }
 
